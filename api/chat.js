@@ -7,6 +7,8 @@ export default async function handler(req, res) {
 
   const { message } = req.body;
 
+  if (!message) return res.status(400).json({ error: "Message is required" });
+
   try {
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
@@ -14,8 +16,8 @@ export default async function handler(req, res) {
         model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: "You are a helpful assistant for urban farming." },
-          { role: "user", content: message }
-        ]
+          { role: "user", content: message },
+        ],
       },
       {
         headers: {
